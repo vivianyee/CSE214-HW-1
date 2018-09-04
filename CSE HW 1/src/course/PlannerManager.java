@@ -15,10 +15,18 @@ public class PlannerManager {
 				"(B) Backup\r\n" + 
 				"(PB) Print Courses in Backup\r\n" + 
 				"(RB) Revert to Backup\r\n" + 
-				"(Q) Quit\n");
+				"(Q) Quit\r\n\n" + 
+				"Enter a selection: ");
 		String n = scanner.nextLine();
 		if(n == "A") {
-			
+			Planner x = new Planner();
+			Scanner scanner = new Scanner(System.in);
+			System.out.print("Enter course name: ");
+			String a = scanner.nextLine();
+			Scanner scanner = new Scanner(System.in);
+			System.out.print("Enter position: ");
+			String a = scanner.nextLine();
+			x.addCourse(newCourse, position);
 		}else if(n == "G") {
 			
 		}else if(n == "R") {
