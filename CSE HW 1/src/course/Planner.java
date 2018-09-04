@@ -1,6 +1,8 @@
 package course;
 
 public class Planner {
+	
+	
 	public Planner() {
 		
 	}
