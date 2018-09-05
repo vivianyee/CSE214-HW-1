@@ -3,9 +3,44 @@ package course;
 import java.util.Scanner;
 
 public class PlannerManager {
+	static Planner plan = new Planner();
+	
 	public static void main(String[] args) {
+		Input();
+	}
+	
+	public static void Input() {
 		Scanner scanner = new Scanner(System.in);
-		System.out.print("(A) Add Course\r\n" + 
+		displayMenu();
+		String n = scanner.nextLine();
+		
+		if(n.compareTo("A")==0) { // ADD COURSE
+			addCourse();
+		}else if(n.compareTo("G")==0) { // GET COURSE
+			getCourse();
+		}else if(n.compareTo("R")==0) { // REMOVE COURSE
+			removeCourse();
+		}else if(n.compareTo("P")==0) { // PRINT PLANNER
+			printPlanner();
+		}else if(n.compareTo("F")==0) { // FILTER PLANNER
+			filterPlanner();
+		}else if(n.compareTo("L")==0) { // LOOK COURSE
+			lookCourse();
+		}else if(n.compareTo("S")==0) { // SIZE PLANNER
+			sizePlanner();
+		}else if(n.compareTo("B")==0) { // BACKUP PLANNER
+			backupPlanner();
+		}else if(n.compareTo("BP")==0) { // PRINT BACKUP
+			printBackup();
+		}else if(n.compareTo("RB")==0) { // REVERT BACKUP
+			revertBackup();
+		}else if(n.compareTo("Q")==0) { // QUIT
+			System.exit(0);
+		}
+	}
+	
+	public static void displayMenu() {
+		System.out.print("\n\n(A) Add Course\r\n" + 
 				"(G) Get Course\r\n" + 
 				"(R) Remove Course\r\n" + 
 				"(P) Print Courses in Planner\r\n" + 
@@ -17,36 +52,97 @@ public class PlannerManager {
 				"(RB) Revert to Backup\r\n" + 
 				"(Q) Quit\r\n\n" + 
 				"Enter a selection: ");
-		String n = scanner.nextLine();
-		if(n == "A") {
-			Planner x = new Planner();
-			Scanner scanner = new Scanner(System.in);
-			System.out.print("Enter course name: ");
-			String a = scanner.nextLine();
-			Scanner scanner = new Scanner(System.in);
-			System.out.print("Enter position: ");
-			String a = scanner.nextLine();
-			x.addCourse(newCourse, position);
-		}else if(n == "G") {
-			
-		}else if(n == "R") {
-			
-		}else if(n == "P") {
-			
-		}else if(n == "F") {
-			
-		}else if(n == "L") {
-			
-		}else if(n == "S") {
-			
-		}else if(n == "B") {
-			
-		}else if(n == "PB") {
-			
-		}else if(n == "RB") {
-			
-		}else if(n == "Q") {
-			 System.exit(0);
-		}
 	}
+	
+	public static void addCourse() {
+		Scanner scanner1 = new Scanner(System.in);
+		System.out.print("Enter course name: ");
+		String aa = scanner1.nextLine();
+		System.out.print("Enter department: ");
+		String ac = scanner1.nextLine();
+		System.out.print("Enter instructor: ");
+		String af = scanner1.nextLine();
+		System.out.print("Enter course code: ");
+		int ad = scanner1.nextInt();
+		System.out.print("Enter course section: ");
+		byte ae = scanner1.nextByte();
+		System.out.print("Enter position: ");
+		int ab = scanner1.nextInt();
+		System.out.print("\n" + ab + " " + ac + "." + ad + " successfully added to planner\n");
+		Course ax = new Course(aa,ac,ae,ad,af);
+		plan.addCourse(ax,ab);
+		Input();
+	}
+	
+	public static void getCourse() {
+		Scanner scanner3 = new Scanner(System.in);
+		System.out.println("Enter position: ");
+		int ga = scanner3.nextInt();
+		Planner gy = new Planner();
+		Course gx = gy.getCourse(ga);
+		System.out.println("No. Course Name               Department Code Section Instructor\r\n" + 
+				"-------------------------------------------------------------------------------\r\n" +
+				ga + gx.getCname() + gx.getDepartment() + gx.getCode() + gx.getSection() + gx.getInstructor());
+		Input();
+	}
+	
+	public static void removeCourse() {
+		Scanner scanner4 = new Scanner(System.in);
+		System.out.println("Enter position: ");
+		int ra = scanner4.nextInt();
+		System.out.println("");
+		Input();
+	}
+	
+	public static void printPlanner() {
+		plan.printAllCourses();
+		Input();
+	}
+	
+	public static void filterPlanner() {
+		Scanner scanner2 = new Scanner(System.in);
+		System.out.println("Enter department code: ");
+		String fa = scanner2.nextLine();
+		Input();
+	}
+	
+	public static void lookCourse() {
+		Scanner scanner5 = new Scanner(System.in);
+		System.out.print("Enter course name: ");
+		String la = scanner5.nextLine();
+		System.out.print("Enter department: ");
+		String lb = scanner5.nextLine();
+		System.out.print("Enter instructor: ");
+		String le = scanner5.nextLine();
+		System.out.print("Enter course code: ");
+		int lc = scanner5.nextInt();
+		System.out.print("Enter course section: ");
+		byte ld = scanner5.nextByte();
+		System.out.print("Enter position: ");
+		int lf = scanner5.nextInt();
+		System.out.print("");
+		Input();
+	}
+	
+	public static void sizePlanner() {
+		System.out.print("There are " + " " + " courses in the planner");
+		Input();
+	}
+	
+	public static void backupPlanner() {
+		System.out.println("Created a backup of the current planner.");
+		Input();
+	}
+	
+	public static void printBackup() {
+		System.out.println("No. Course Name               Department Code Section Instructor\r\n" + 
+				"-------------------------------------------------------------------------------\r\n");
+		Input();
+	}
+	
+	public static void revertBackup() {
+		System.out.println("Planner successfully reverted to the backup copy.");
+		Input();
+	}
+
 }
