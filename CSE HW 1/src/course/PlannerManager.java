@@ -54,7 +54,7 @@ public class PlannerManager {
 				"Enter a selection: ");
 	}
 	
-	public static void addCourse() {
+	public static void addCourse() { //nice
 		Scanner scanner1 = new Scanner(System.in);
 		System.out.print("Enter course name: ");
 		String aa = scanner1.nextLine();
@@ -74,39 +74,40 @@ public class PlannerManager {
 		Input();
 	}
 	
-	public static void getCourse() {
+	public static void getCourse() { //nice
 		Scanner scanner3 = new Scanner(System.in);
 		System.out.println("Enter position: ");
 		int ga = scanner3.nextInt();
-		Planner gy = new Planner();
-		Course gx = gy.getCourse(ga);
-		System.out.println("No. Course Name               Department Code Section Instructor\r\n" + 
-				"-------------------------------------------------------------------------------\r\n" +
-				ga + gx.getCname() + gx.getDepartment() + gx.getCode() + gx.getSection() + gx.getInstructor());
+		Course gx = plan.getCourse(ga);
+		System.out.printf("%-3s %-20s %-11s %-5s %-7s %-5s %n","No.","Course Name","Department", "Code", "Section", "Instructor");
+		System.out.println("------------------------------------------------------------------------");
+		System.out.printf("%-3s %-20s %-11s %-5s %-7s %-5s %n",ga,gx.getCname(),gx.getDepartment(),gx.getCode(),gx.getSection(),gx.getInstructor());
 		Input();
 	}
 	
-	public static void removeCourse() {
+	public static void removeCourse() { //nice
 		Scanner scanner4 = new Scanner(System.in);
 		System.out.println("Enter position: ");
 		int ra = scanner4.nextInt();
+		plan.removeCourse(ra);
 		System.out.println("");
 		Input();
 	}
 	
-	public static void printPlanner() {
+	public static void printPlanner() { //nice
 		plan.printAllCourses();
 		Input();
 	}
 	
-	public static void filterPlanner() {
+	public static void filterPlanner() { //nice
 		Scanner scanner2 = new Scanner(System.in);
 		System.out.println("Enter department code: ");
 		String fa = scanner2.nextLine();
+		Planner.filter(plan,fa);
 		Input();
 	}
 	
-	public static void lookCourse() {
+	public static void lookCourse() { 
 		Scanner scanner5 = new Scanner(System.in);
 		System.out.print("Enter course name: ");
 		String la = scanner5.nextLine();
@@ -125,7 +126,7 @@ public class PlannerManager {
 	}
 	
 	public static void sizePlanner() {
-		System.out.print("There are " + " " + " courses in the planner");
+		System.out.print("There are " + plan.size() + " courses in the planner");
 		Input();
 	}
 	
@@ -135,8 +136,8 @@ public class PlannerManager {
 	}
 	
 	public static void printBackup() {
-		System.out.println("No. Course Name               Department Code Section Instructor\r\n" + 
-				"-------------------------------------------------------------------------------\r\n");
+		System.out.printf("%-3s %-20s %-11s %-5s %-7s %-5s %n","No.","Course Name","Department", "Code", "Section", "Instructor");
+		System.out.println("------------------------------------------------------------------------");
 		Input();
 	}
 	

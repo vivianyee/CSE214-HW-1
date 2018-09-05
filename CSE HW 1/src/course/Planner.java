@@ -8,21 +8,34 @@ public class Planner {
 	}
 	
 	public int size() {
-		int x = 0;
-		for(int i = 0; i < arr.length; i++) {
-			if(arr[i]!=null) {
-				x++;
-			}
+		int y = 0;
+		while(arr[y]!=null) {
+			y++;
 		}
-		return x;
+		return y;
 	}
 	
 	public void addCourse(Course newCourse, int position) {
-		arr[position-1] = newCourse;
+		if(arr[position-1]==null) {
+			arr[position-1] = newCourse;
+		}else {
+			int y = 0;
+			while(arr[y]!=null) {
+				y++;
+			}
+			for(int i = y+1; i > position-1; i--) {
+				arr[i] = arr[i-1];
+			}
+			arr[position-1] = newCourse;
+		}
 	}
 	
 	public void removeCourse(int position) {
-		for(int i = position-1; i < arr.length; i++) {
+		int y = 0;
+		while(arr[y]!=null) {
+			y++;
+		}
+		for(int i = position-1; i < y; i++) {
 			arr[i] = arr[i+1];
 		}
 	}
@@ -32,7 +45,14 @@ public class Planner {
 	}
 	
 	public static void filter(Planner planner, String department) {
-		
+		System.out.println("\n");
+		System.out.printf("%-3s %-20s %-11s %-5s %-7s %-5s %n","No.","Course Name","Department", "Code", "Section", "Instructor");
+		System.out.println("------------------------------------------------------------------------");
+		for(int i = 0;i < planner.size();i++) {
+			if(planner.getCourse(i).getDepartment() == department) {
+				System.out.printf("%-3s %-20s %-11s %-5s %-7s %-5s %n","No.","Course Name","Department", "Code", "Section", "Instructor");
+			}
+		}
 	}
 	
 	public boolean exists(Course course) {
@@ -45,8 +65,9 @@ public class Planner {
 	
 	public void printAllCourses() {
 		int y = 0;
+		System.out.println("/n");
 		System.out.printf("%-3s %-20s %-11s %-5s %-7s %-5s %n","No.","Course Name","Department", "Code", "Section", "Instructor");
-		System.out.println("\r\n" + "------------------------------------------------------------------------------" + "\r\n");
+		System.out.println("------------------------------------------------------------------------");
 		while(arr[y]!=null) {
 			y++;
 		}
