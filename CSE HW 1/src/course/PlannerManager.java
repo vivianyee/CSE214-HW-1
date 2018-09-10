@@ -2,45 +2,75 @@ package course;
 
 import java.util.Scanner;
 
+/**
+ * The <code>PlannerManager</code> class runs the project
+ * and directs where the user input goes
+ * 
+ * @author Vivian Yee
+ * 		e-mail: vivian.yee@stonybrook.edu
+ * 		Stonybrook ID: 112145534
+ */
 public class PlannerManager {
-	static Planner plan = new Planner();
+	static Planner plan = new Planner(); // Original planner for user
+	static Planner planb = new Planner(); // Holds backup planner
 	
+	/**
+	 * Goes to <code>input<code>
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		Input();
 	}
 	
+	/**
+	 * Provides inputs and which methods to go to depending on 
+	 * user input
+	 * 
+	 * Case insensitive
+	 * If put anything else, program will terminate
+	 * 
+	 */
 	public static void Input() {
 		Scanner scanner = new Scanner(System.in);
 		displayMenu();
 		String n = scanner.nextLine();
-		
-		if(n.compareTo("A")==0) { // ADD COURSE
+		if(n.equalsIgnoreCase("A")) { // ADD COURSE
 			addCourse();
-		}else if(n.compareTo("G")==0) { // GET COURSE
+		}else if(n.equalsIgnoreCase("G")) { // GET COURSE
 			getCourse();
-		}else if(n.compareTo("R")==0) { // REMOVE COURSE
+		}else if(n.equalsIgnoreCase("R")) { // REMOVE COURSE
 			removeCourse();
-		}else if(n.compareTo("P")==0) { // PRINT PLANNER
+		}else if(n.equalsIgnoreCase("P")) { // PRINT PLANNER
 			printPlanner();
-		}else if(n.compareTo("F")==0) { // FILTER PLANNER
+		}else if(n.equalsIgnoreCase("F")) { // FILTER PLANNER
 			filterPlanner();
-		}else if(n.compareTo("L")==0) { // LOOK COURSE
+		}else if(n.equalsIgnoreCase("L")) { // LOOK COURSE
 			lookCourse();
-		}else if(n.compareTo("S")==0) { // SIZE PLANNER
+		}else if(n.equalsIgnoreCase("S")) { // SIZE PLANNER
 			sizePlanner();
-		}else if(n.compareTo("B")==0) { // BACKUP PLANNER
+		}else if(n.equalsIgnoreCase("B")) { // BACKUP PLANNER
 			backupPlanner();
-		}else if(n.compareTo("BP")==0) { // PRINT BACKUP
+		}else if(n.equalsIgnoreCase("PB")) { // PRINT BACKUP
 			printBackup();
-		}else if(n.compareTo("RB")==0) { // REVERT BACKUP
+		}else if(n.equalsIgnoreCase("RB")) { // REVERT BACKUP
 			revertBackup();
-		}else if(n.compareTo("Q")==0) { // QUIT
+		}else if(n.equalsIgnoreCase("Q")) { // QUIT
+			System.out.println("\nBye bye!");
 			System.exit(0);
+		}else {
+			System.out.println("\nPick one of the selections.");
+			Input();
 		}
 	}
 	
+	/**
+	 * Displays menu
+	 * 
+	 */
 	public static void displayMenu() {
-		System.out.print("\n\n(A) Add Course\r\n" + 
+		System.out.print("\n\n------------------------------\r\n" +
+				"(A) Add Course\r\n" + 
 				"(G) Get Course\r\n" + 
 				"(R) Remove Course\r\n" + 
 				"(P) Print Courses in Planner\r\n" + 
@@ -54,9 +84,20 @@ public class PlannerManager {
 				"Enter a selection: ");
 	}
 	
+	/**
+	 * Adds courses to planner by asking user to input different 
+	 * sections of the new course
+	 * 
+	 * <dt>Precondition:
+	 * 		User must input String for course name, department, and instructor
+	 * 		User must input int for course code, section, and position
+	 * 
+	 * <dt>Postcondition:
+	 * 		Adds the course to the planner <code>plan<code>
+	 */
 	public static void addCourse() { //nice
 		Scanner scanner1 = new Scanner(System.in);
-		System.out.print("Enter course name: ");
+		System.out.print("\nEnter course name: ");
 		String aa = scanner1.nextLine();
 		System.out.print("Enter department: ");
 		String ac = scanner1.nextLine();
@@ -68,48 +109,108 @@ public class PlannerManager {
 		byte ae = scanner1.nextByte();
 		System.out.print("Enter position: ");
 		int ab = scanner1.nextInt();
-		System.out.print("\n" + ab + " " + ac + "." + ad + " successfully added to planner\n");
+		System.out.print("\n" + ab + " " + ac + "." + ad 
+				+ " successfully added to planner\n");
 		Course ax = new Course(aa,ac,ae,ad,af);
 		plan.addCourse(ax,ab);
 		Input();
 	}
 	
+	/**
+	 * Gets course based on position given by user by asking for
+	 * what position the user wants to get
+	 * 
+	 * <dt>Precondition:
+	 * 		User must input a position that is within Planner's size
+	 * 
+	 * <dt>Postcondition:
+	 * 		Prints out the course name, department, code, section,
+	 * 		and instructor based on the position given
+	 */
 	public static void getCourse() { //nice
 		Scanner scanner3 = new Scanner(System.in);
-		System.out.println("Enter position: ");
+		System.out.println("\nEnter position: ");
 		int ga = scanner3.nextInt();
-		Course gx = plan.getCourse(ga);
-		System.out.printf("%-3s %-20s %-11s %-5s %-7s %-5s %n","No.","Course Name","Department", "Code", "Section", "Instructor");
-		System.out.println("------------------------------------------------------------------------");
-		System.out.printf("%-3s %-20s %-11s %-5s %-7s %-5s %n",ga,gx.getCname(),gx.getDepartment(),gx.getCode(),gx.getSection(),gx.getInstructor());
+		if(plan.size()<ga) {
+			System.out.println("\nPosition not found in planner");
+		}else {
+			Course gx = plan.getCourse(ga);
+			System.out.println("\nNo. Course Name          "
+					+ "Department  Code  Section Instructor"+
+					"\n------------------------------------"
+					+ "------------------------------------");
+			System.out.printf("%-3s %-20s %-11s %-5s %-7s %-5s %n",
+					ga,gx.getCname(),gx.getDepartment(),gx.getCode(),
+					 gx.getSection(),gx.getInstructor());
+		}
 		Input();
 	}
 	
+	/**
+	 * Removes course based on position given by user by asking what
+	 * position the user wants the course to be removed
+	 * 
+	 * <dt>Precondition:
+	 * 		User must input a position that is within Planner's size
+	 * 
+	 * <dt>Postcondition:
+	 * 		Prints either if the position is not found in planner or
+	 * 		removes the course in the position
+	 */
 	public static void removeCourse() { //nice
 		Scanner scanner4 = new Scanner(System.in);
-		System.out.println("Enter position: ");
+		System.out.println("\nEnter position: ");
 		int ra = scanner4.nextInt();
-		plan.removeCourse(ra);
-		System.out.println("");
+		if(plan.size()<ra) {
+			System.out.println("\nPosition not found in planner");
+		}else {
+			plan.removeCourse(ra);
+			System.out.println("\nCourse removed");
+		}
 		Input();
 	}
 	
+	/**
+	 * Prints planner
+	 * 
+	 */
 	public static void printPlanner() { //nice
 		plan.printAllCourses();
 		Input();
 	}
 	
+	/**
+	 * Prints courses with department user inputs
+	 * 
+	 * <dt>Precondition:
+	 * 		Department has to be String and within the Planner
+	 * 
+	 * <dt>Postcondition:
+	 * 		Prints out the filtered courses based on the department
+	 * 		given by the user
+	 */
 	public static void filterPlanner() { //nice
 		Scanner scanner2 = new Scanner(System.in);
-		System.out.println("Enter department code: ");
+		System.out.println("\nEnter department code: ");
 		String fa = scanner2.nextLine();
+		System.out.println("\n");
 		Planner.filter(plan,fa);
 		Input();
 	}
 	
+	/**
+	 * Looks up if course exists and prints position
+	 * 
+	 * <dt>Precondition:
+	 * 		Course name, department, instructor, code, and 
+	 * 		section must be a part of planner
+	 * 
+	 * <dt>Postcondition:
+	 * 		Prints the course and where it is located in the planner
+	 */
 	public static void lookCourse() { 
 		Scanner scanner5 = new Scanner(System.in);
-		System.out.print("Enter course name: ");
+		System.out.print("\nEnter course name: ");
 		String la = scanner5.nextLine();
 		System.out.print("Enter department: ");
 		String lb = scanner5.nextLine();
@@ -119,31 +220,60 @@ public class PlannerManager {
 		int lc = scanner5.nextInt();
 		System.out.print("Enter course section: ");
 		byte ld = scanner5.nextByte();
-		System.out.print("Enter position: ");
-		int lf = scanner5.nextInt();
-		System.out.print("");
+		Course x = new Course(la,lb,ld,lc,le);
+		int pos = plan.position(x)+1;
+		if(plan.exists(x)) {
+			System.out.println("\n" + lb + " " + lc + ld 
+					+ " is found in the planner at position " 
+					+ pos);
+		}else {
+			System.out.println("\n" + lb + " " + lc + ld 
+					+ " is not found in the planner");
+		}
 		Input();
 	}
 	
-	public static void sizePlanner() {
-		System.out.print("There are " + plan.size() + " courses in the planner");
+	/**
+	 * Prints how many courses planner has
+	 * 
+	 * <dt>Postcondition:
+	 * 		Prints size of planner
+	 */
+	public static void sizePlanner() { //nice
+		System.out.print("\nThere are " + plan.size() + " courses in the planner");
 		Input();
 	}
 	
-	public static void backupPlanner() {
-		System.out.println("Created a backup of the current planner.");
+	/**
+	 * Backs planner up
+	 * 
+	 * <dt>Postcondition:
+	 * 		Saves current planner
+	 */
+	public static void backupPlanner() { //nice
+		planb = (Planner) plan.clone();
+		System.out.println("\nCreated a backup of the current planner.");
 		Input();
 	}
 	
-	public static void printBackup() {
-		System.out.printf("%-3s %-20s %-11s %-5s %-7s %-5s %n","No.","Course Name","Department", "Code", "Section", "Instructor");
-		System.out.println("------------------------------------------------------------------------");
+	/**
+	 * Prints backup planner
+	 * 
+	 */
+	public static void printBackup() { //nice
+		planb.printAllCourses();
 		Input();
 	}
 	
-	public static void revertBackup() {
-		System.out.println("Planner successfully reverted to the backup copy.");
+	/**
+	 * Turns planner into backup planner
+	 * 
+	 */
+	public static void revertBackup() { //nice
+		plan = (Planner) planb.clone();
+		System.out.println("\nPlanner successfully reverted to the backup copy.");
 		Input();
 	}
+		
 
 }
