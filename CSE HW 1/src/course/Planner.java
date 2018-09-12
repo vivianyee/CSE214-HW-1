@@ -105,7 +105,7 @@ public class Planner {
 				}
 				System.out.printf("%-3s %-20s %-11s %-5s %-7s %-5s %n",
 						i+1,x.getCname(),x.getDepartment(),x.getCode(),
-						x.getSection(),x.getInstructor());
+						0+x.getSection(),x.getInstructor());
 				y++;
 				count++;
 			}
@@ -179,7 +179,7 @@ public class Planner {
 		for(int i = 0; i < y; i++) {
 			System.out.printf("%-3s %-20s %-11s %-5s %-7s %-5s %n",
 					(i+1),arr[i].getCname(),arr[i].getDepartment(),
-					arr[i].getCode(),arr[i].getSection(),arr[i].getInstructor());
+					arr[i].getCode(),0+arr[i].getSection(),arr[i].getInstructor());
 		}
 	}
 	

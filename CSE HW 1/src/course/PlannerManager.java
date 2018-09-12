@@ -18,8 +18,9 @@ public class PlannerManager {
 	 * Goes to <code>input<code>
 	 * 
 	 * @param args
+	 * @throws IllegalElementException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IllegalElementException{
 		Input();
 	}
 	
@@ -29,9 +30,10 @@ public class PlannerManager {
 	 * 
 	 * Case insensitive
 	 * If put anything else, program will terminate
+	 * @throws IllegalElementException 
 	 * 
 	 */
-	public static void Input() {
+	public static void Input() throws IllegalElementException {
 		Scanner scanner = new Scanner(System.in);
 		displayMenu();
 		String n = scanner.nextLine();
@@ -56,10 +58,9 @@ public class PlannerManager {
 		}else if(n.equalsIgnoreCase("RB")) { // REVERT BACKUP
 			revertBackup();
 		}else if(n.equalsIgnoreCase("Q")) { // QUIT
-			System.out.println("\nBye bye!");
+			System.out.println("\nProgram terminating successfully...");
 			System.exit(0);
 		}else {
-			System.out.println("\nPick one of the selections.");
 			Input();
 		}
 	}
@@ -94,26 +95,39 @@ public class PlannerManager {
 	 * 
 	 * <dt>Postcondition:
 	 * 		Adds the course to the planner <code>plan<code>
+	 * @throws IllegalElementException 
 	 */
-	public static void addCourse() { //nice
+	public static void addCourse() throws IllegalElementException { //nice
+		int count=0;
 		Scanner scanner1 = new Scanner(System.in);
 		System.out.print("\nEnter course name: ");
 		String aa = scanner1.nextLine();
 		System.out.print("Enter department: ");
 		String ac = scanner1.nextLine();
-		System.out.print("Enter instructor: ");
-		String af = scanner1.nextLine();
 		System.out.print("Enter course code: ");
 		int ad = scanner1.nextInt();
 		System.out.print("Enter course section: ");
 		byte ae = scanner1.nextByte();
+		scanner1.nextLine();
+		System.out.print("Enter instructor: ");
+		String af = scanner1.nextLine();
 		System.out.print("Enter position: ");
 		int ab = scanner1.nextInt();
-		System.out.print("\n" + ab + " " + ac + "." + ad 
-				+ " successfully added to planner\n");
-		Course ax = new Course(aa,ac,ae,ad,af);
-		plan.addCourse(ax,ab);
-		Input();
+		Course ax = null;
+		try {
+			ax = new Course(aa, ac, ae, ad, af);
+		} catch (IllegalElementException e) {
+			count++;
+			System.out.println(e);
+		}
+		if(count==0) {
+			plan.addCourse(ax,ab);
+			System.out.print("\n" + ac + " " + ad + "." + 0 + ae 
+					+ " successfully added to planner\n");
+			Input();
+		}else {
+			Input();
+		}
 	}
 	
 	/**
@@ -126,8 +140,9 @@ public class PlannerManager {
 	 * <dt>Postcondition:
 	 * 		Prints out the course name, department, code, section,
 	 * 		and instructor based on the position given
+	 * @throws IllegalElementException 
 	 */
-	public static void getCourse() { //nice
+	public static void getCourse() throws IllegalElementException { //nice
 		Scanner scanner3 = new Scanner(System.in);
 		System.out.println("\nEnter position: ");
 		int ga = scanner3.nextInt();
@@ -141,7 +156,7 @@ public class PlannerManager {
 					+ "------------------------------------");
 			System.out.printf("%-3s %-20s %-11s %-5s %-7s %-5s %n",
 					ga,gx.getCname(),gx.getDepartment(),gx.getCode(),
-					 gx.getSection(),gx.getInstructor());
+					 0+gx.getSection(),gx.getInstructor());
 		}
 		Input();
 	}
@@ -156,25 +171,30 @@ public class PlannerManager {
 	 * <dt>Postcondition:
 	 * 		Prints either if the position is not found in planner or
 	 * 		removes the course in the position
+	 * @throws IllegalElementException 
 	 */
-	public static void removeCourse() { //nice
+	public static void removeCourse() throws IllegalElementException { //nice
 		Scanner scanner4 = new Scanner(System.in);
 		System.out.println("\nEnter position: ");
 		int ra = scanner4.nextInt();
 		if(plan.size()<ra) {
 			System.out.println("\nPosition not found in planner");
 		}else {
+			System.out.println(plan.getCourse(ra).getCname() + " " 
+					+ plan.getCourse(ra).getCode() + "." + 0 
+					+ plan.getCourse(ra).getSection() + " has been successfully"
+					+ " removed from the planner.");
 			plan.removeCourse(ra);
-			System.out.println("\nCourse removed");
 		}
 		Input();
 	}
 	
 	/**
 	 * Prints planner
+	 * @throws IllegalElementException 
 	 * 
 	 */
-	public static void printPlanner() { //nice
+	public static void printPlanner() throws IllegalElementException { //nice
 		plan.printAllCourses();
 		Input();
 	}
@@ -188,8 +208,9 @@ public class PlannerManager {
 	 * <dt>Postcondition:
 	 * 		Prints out the filtered courses based on the department
 	 * 		given by the user
+	 * @throws IllegalElementException 
 	 */
-	public static void filterPlanner() { //nice
+	public static void filterPlanner() throws IllegalElementException { //nice
 		Scanner scanner2 = new Scanner(System.in);
 		System.out.println("\nEnter department code: ");
 		String fa = scanner2.nextLine();
@@ -207,27 +228,29 @@ public class PlannerManager {
 	 * 
 	 * <dt>Postcondition:
 	 * 		Prints the course and where it is located in the planner
+	 * @throws IllegalElementException 
 	 */
-	public static void lookCourse() { 
+	public static void lookCourse() throws IllegalElementException { 
 		Scanner scanner5 = new Scanner(System.in);
 		System.out.print("\nEnter course name: ");
 		String la = scanner5.nextLine();
 		System.out.print("Enter department: ");
 		String lb = scanner5.nextLine();
-		System.out.print("Enter instructor: ");
-		String le = scanner5.nextLine();
 		System.out.print("Enter course code: ");
 		int lc = scanner5.nextInt();
 		System.out.print("Enter course section: ");
 		byte ld = scanner5.nextByte();
+		scanner5.nextLine();
+		System.out.print("Enter instructor: ");
+		String le = scanner5.nextLine();
 		Course x = new Course(la,lb,ld,lc,le);
 		int pos = plan.position(x)+1;
 		if(plan.exists(x)) {
-			System.out.println("\n" + lb + " " + lc + ld 
+			System.out.println("\n" + lb + " " + lc + "." + 0+ld 
 					+ " is found in the planner at position " 
 					+ pos);
 		}else {
-			System.out.println("\n" + lb + " " + lc + ld 
+			System.out.println("\n" + lb + " " + lc + "." + 0+ld
 					+ " is not found in the planner");
 		}
 		Input();
@@ -238,8 +261,9 @@ public class PlannerManager {
 	 * 
 	 * <dt>Postcondition:
 	 * 		Prints size of planner
+	 * @throws IllegalElementException 
 	 */
-	public static void sizePlanner() { //nice
+	public static void sizePlanner() throws IllegalElementException { //nice
 		System.out.print("\nThere are " + plan.size() + " courses in the planner");
 		Input();
 	}
@@ -249,8 +273,9 @@ public class PlannerManager {
 	 * 
 	 * <dt>Postcondition:
 	 * 		Saves current planner
+	 * @throws IllegalElementException 
 	 */
-	public static void backupPlanner() { //nice
+	public static void backupPlanner() throws IllegalElementException { //nice
 		planb = (Planner) plan.clone();
 		System.out.println("\nCreated a backup of the current planner.");
 		Input();
@@ -258,18 +283,20 @@ public class PlannerManager {
 	
 	/**
 	 * Prints backup planner
+	 * @throws IllegalElementException 
 	 * 
 	 */
-	public static void printBackup() { //nice
+	public static void printBackup() throws IllegalElementException { //nice
 		planb.printAllCourses();
 		Input();
 	}
 	
 	/**
 	 * Turns planner into backup planner
+	 * @throws IllegalElementException 
 	 * 
 	 */
-	public static void revertBackup() { //nice
+	public static void revertBackup() throws IllegalElementException { //nice
 		plan = (Planner) planb.clone();
 		System.out.println("\nPlanner successfully reverted to the backup copy.");
 		Input();

@@ -29,8 +29,12 @@ public class Course {
 	 * 		The course code
 	 * @param instructor
 	 * 		The instructor's name
+	 * @throws IllegalElementException 
 	 */
-	public Course(String cname, String department, byte section, int code, String instructor){
+	public Course(String cname, String department, byte section, int code, String instructor) throws IllegalElementException {
+		if((code<100)||(code>999)) {
+			throw new IllegalElementException("Enter a value greater than 100 for course code.");
+		}
 		this.cname = cname;
 		this.department = department;
 		this.code = code;
@@ -45,7 +49,13 @@ public class Course {
 	 * 		Returns the new object
 	 */
 	public Object clone() {
-		Course x = new Course(cname, department, section, code, instructor);
+		Course x = null;
+		try {
+			x = new Course(cname, department, section, code, instructor);
+		} catch (IllegalElementException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
 		return x;
 	}
 	
@@ -122,8 +132,9 @@ public class Course {
 	 * 
 	 * @param code
 	 * 		Code
+	 * @throws IllegalElementException 
 	 */
-	public void setCode(int code) {
+	public void setCode(int code) throws IllegalElementException {
 		this.code = code;
 	}
 	
